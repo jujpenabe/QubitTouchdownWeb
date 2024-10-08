@@ -11,8 +11,8 @@ class Node{
         this.links.push(node3);
 
         this.keys.set(link1,0);
-        this.keys.set(link1,1);
-        this.keys.set(link1,2);
+        this.keys.set(link2,1);
+        this.keys.set(link3,2);
     }
     
    /*

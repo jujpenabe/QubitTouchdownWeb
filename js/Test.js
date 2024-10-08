@@ -113,7 +113,8 @@ let currDeck = new Deck();
 
 let player1 = new PlayerController(1,ball,currDeck);
 
-//console.log(player1);
+console.log(player1);
 player1.MoveBall(1);
-//console.log(ball);
+console.log(currDeck.cards.length);
+console.log(ball);
 
