@@ -29,6 +29,13 @@ class Deck {
        this.AddCards("I",3);
        this.AddCards("Mes",3);
        this.AddCards("Sqrt",12);
+       for (let i = this.cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = this.cards[i];
+        this.cards[i] = this.cards[j];
+        this.cards[j] = tmp;
+      }
+    
     }
 
     NewHand(){
