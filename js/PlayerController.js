@@ -1,5 +1,6 @@
 class PlayerController {
     constructor(playerNo, Ball, Deck){
+        this.playerScore = 0;
         this.playerNo = playerNo;
         this.maxCardSize = 4;
         this.Ball = Ball;

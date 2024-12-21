@@ -12,7 +12,13 @@ class Node{
 
         this.keys.set(link1,0);
         this.keys.set(link2,1);
-        this.keys.set(link3,2);
+
+
+        //this.keys.set(link3,2);
+
+        for (let i = 0;i < link3.length; i++){
+            this.keys.set(link3[i],2);
+        }
     }
     
    /*
