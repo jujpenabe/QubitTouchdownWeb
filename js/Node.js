@@ -37,3 +37,4 @@ class Node{
         return nodeRef;
     }
 }
+module.exports = Node;

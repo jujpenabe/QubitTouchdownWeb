@@ -1,3 +1,8 @@
+const PlayerController = require('./PlayerController');
+const Node = require('./Node');
+const Deck = require('./Deck');
+const BallController = require('./BallController');
+
 class GameManager {
     constructor() {
 
@@ -73,10 +78,11 @@ class GameManager {
             this.estadoActual = this.Estados.IN_GAME
         }
         else if (this.estadoActual == this.Estados.IN_GAME) {
-        
             this.currentPlayer.MoveBall(1);
+            this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
+
             if (this.ball.position == this.plusNode){
-                this.player1Score += 1; 
+                this.player1.playerScore += 1; 
                 this.currentPlayer = this.player2;
                 this.estadoActual = this.Estados.BEGIN;
             }
@@ -114,3 +120,5 @@ class GameManager {
     }
 
 }
+
+module.exports = GameManager;

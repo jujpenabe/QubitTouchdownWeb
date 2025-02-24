@@ -13,3 +13,4 @@ class PlayerController {
         this.hand[cardIndex] = this.Deck.GetCard();
     }
 }
+module.exports = PlayerController;

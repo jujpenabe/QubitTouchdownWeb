@@ -60,6 +60,6 @@ class Deck {
         }
     }
 }
-
+module.exports = Deck;
 //let testDeck = new Deck();
 //console.log(testDeck);
