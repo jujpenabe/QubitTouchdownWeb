@@ -9,3 +9,4 @@ class BallController{
         }
     }
 }
+module.exports = BallController;
