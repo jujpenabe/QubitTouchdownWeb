@@ -7,6 +7,7 @@ const net = require('net');
 class QbitClient {
     constructor(){
         this.client = new net.Socket();
+        this.player = null;
     }
     connect(){
         this.client.connect(3000, '192.168.xx.xx', () => {
@@ -17,7 +18,8 @@ class QbitClient {
             try {
                 const message = JSON.parse(data.toString());
                 if (message.hand) {
-                    console.log(`Mano recibida:`, message.hand);
+                    this.player = new PlayerController(message.player, message.hand);
+                    console.log(`Jugador ${message.player} creado con mano:`, message.hand);
                 } else {
                     console.log('Mensaje del servidor:', data.toString());
                 }

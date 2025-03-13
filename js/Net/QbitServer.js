@@ -12,7 +12,7 @@ class ServerGameManager{
 
         this.clients = [];
         this.server = net.createServer((socket) => this.handleConnection(socket));
-        
+        /*
         this.Estados = {
             BEGIN: 'begin',
             IN_GAME: 'inGame',
@@ -32,6 +32,7 @@ class ServerGameManager{
         this.iMinusNode.SetLinks(this.plusNode,"S",this.oneNode,"Sqrt",this.iNode,["X","Z","H"]);
 
         this.ball = new BallController (this.ceroNode);
+        */
         this.deck = new Deck ();
     }
 
