@@ -60,6 +60,6 @@ class Deck {
         }
     }
 }
-module.exports = Deck;
+module.exports = Deck,Card;
 //let testDeck = new Deck();
 //console.log(testDeck);

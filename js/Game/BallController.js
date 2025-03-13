@@ -8,5 +8,8 @@ class BallController{
             this.position = tmp;
         }
     }
+    HardMove(node){
+        this.position = node;
+    }
 }
 module.exports = BallController;
