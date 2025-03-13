@@ -5,14 +5,14 @@ const net = require('net');
 
 class ServerGameManager{
     constructor(){
-        if (!!GameManager.SharedInstance) {
-            return GameManager.SharedInstance;
+        if (!!ServerGameManager.SharedInstance) {
+            return ServerGameManager.SharedInstance;
         }
-        GameManager.SharedInstance = this;
+        ServerGameManager.SharedInstance = this;
 
         this.clients = [];
         this.server = net.createServer((socket) => this.handleConnection(socket));
-
+        
         this.Estados = {
             BEGIN: 'begin',
             IN_GAME: 'inGame',
@@ -45,9 +45,24 @@ class ServerGameManager{
         console.log(`Jugador conectado (${this.clients.length}/2)`);
         
         if (this.clients.length === 2) {
-            console.log('Dos jugadores conectados. Cerrando servidor.');
-            this.server.close();
+            console.log('Dos jugadores conectados. Repartiendo manos...');
+            this.dealHands();
         }
+    }
+
+    dealHands() {
+        this.clients.forEach((client, index) => {
+            const hand = this.deck.NewHand();
+            client.write(JSON.stringify({ player: index + 1, hand }));
+        });
+        
+        console.log('Manos repartidas. Cerrando servidor en 3 segundos...');
+        setTimeout(() => {
+            this.clients.forEach(client => client.end('Servidor cerrando...'));
+            this.server.close(() => {
+                console.log('Servidor cerrado');
+            });
+        }, 3000);
     }
 
     start(){
