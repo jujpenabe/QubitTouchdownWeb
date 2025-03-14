@@ -6,7 +6,9 @@ class PlayerController {
     }
 
     MoveBall(cardIndex){
-        return this.hand[cardIndex].pop();
+        const tmp = this.hand[cardIndex];
+        this.hand[cardIndex] = null;
+        return tmp;
     }
 }
 module.exports = PlayerController;

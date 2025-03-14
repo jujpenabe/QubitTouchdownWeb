@@ -43,7 +43,7 @@ class ServerGameManager{
         }
 
         this.clients.push(socket);
-        console.log(`Jugador conectado (${this.clients.length}/2)`);
+        console.log(`Jugador ${this.clients.length} conectado (${this.clients.length}/2)`);
         
         if (this.clients.length === 2) {
             console.log('Dos jugadores conectados. Repartiendo manos...');
@@ -57,13 +57,45 @@ class ServerGameManager{
             client.write(JSON.stringify({ player: index + 1, hand }));
         });
         
-        console.log('Manos repartidas. Cerrando servidor en 3 segundos...');
-        setTimeout(() => {
-            this.clients.forEach(client => client.end('Servidor cerrando...'));
-            this.server.close(() => {
-                console.log('Servidor cerrado');
-            });
-        }, 3000);
+        console.log('Manos repartidas. Esperando jugadas...');
+        this.waitForMove();
+    }
+
+    waitForMove() {
+        if (this.clients.length < 2) return; // Previene errores si falta un cliente
+        
+        const currentPlayer = this.turn % 2;
+        if (currentPlayer !== 0 && currentPlayer !== 1) {
+            console.log(`Error: currentPlayer (${currentPlayer}) no es válido.`);
+            return;
+        }
+        const client = this.clients[currentPlayer];
+        
+        if (!client) {
+            console.log(`Error: Cliente ${currentPlayer + 1} no está definido.`);
+            return;
+        }
+        
+        client.write(JSON.stringify({ message: `Turno del Jugador ${currentPlayer + 1}. Envía un índice de carta.` }));
+        
+        this.clients[currentPlayer].once('data', (data) => {
+            try {
+                const { cardIndex } = JSON.parse(data.toString());
+                if (typeof cardIndex === 'number') {
+                    console.log(`Jugador ${currentPlayer + 1} jugó la carta en índice ${cardIndex}`);
+                    this.broadcast(`Jugador ${currentPlayer + 1} jugó una carta.`);
+                    this.turn++;
+                    this.waitForMove();
+                }
+            } catch (e) {
+                console.log('Error al procesar movimiento:', e);
+                this.waitForMove();
+            }
+        });
+    }
+
+    broadcast(message) {
+        this.clients.forEach(client => client.write(JSON.stringify({ message })));
     }
 
     start(){

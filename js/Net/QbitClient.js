@@ -10,7 +10,7 @@ class QbitClient {
         this.player = null;
     }
     connect(){
-        this.client.connect(3000, '192.168.xx.xx', () => {
+        this.client.connect(3000, '192.168.20.28', () => {
             console.log('Conectado al servidor');
         });
 
@@ -20,8 +20,11 @@ class QbitClient {
                 if (message.hand) {
                     this.player = new PlayerController(message.player, message.hand);
                     console.log(`Jugador ${message.player} creado con mano:`, message.hand);
-                } else {
-                    console.log('Mensaje del servidor:', data.toString());
+                } else if (message.message) {
+                    console.log('Servidor:', message.message);
+                    if (message.message.includes('Tu turno')) {
+                        this.makeMove();
+                    }
                 }
             } catch (e) {
                 console.log('Mensaje del servidor:', data.toString());
@@ -31,6 +34,17 @@ class QbitClient {
         this.client.on('close', () => {
             console.log('Conexión cerrada');
         });
+
+        
+    }
+
+    makeMove() {
+        if (this.player && this.player.hand.length > 0) {
+            const cardIndex = 0; // Juega la primera carta por simplicidad
+            console.log(`Jugando carta en índice ${cardIndex}`);
+            this.player.MoveBall(cardIndex);
+            this.client.write(JSON.stringify({ cardIndex }));
+        }
     }
 }
 
