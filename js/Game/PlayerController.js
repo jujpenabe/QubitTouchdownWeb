@@ -10,5 +10,13 @@ class PlayerController {
         this.hand[cardIndex] = null;
         return tmp;
     }
+
+    GiveCard(card){
+        for(let i = 0; i < this.maxCardSize; i++){
+            if(this.hand[i] == null){
+                this.hand[i] = card;
+            }
+        }
+    }
 }
 module.exports = PlayerController;
