@@ -94,6 +94,7 @@ class ServerGameManager{
                     this.playedCards--;
                     console.log('Cartas restantes:', this.playedCards);
                     console.log('Posicion actual:', this.ball.position.type);
+                    this.clients.forEach(client => client.write(JSON.stringify({ position: this.ball.position.type }) + "\n"));
                     if (this.ball.position.type == "plus"){
                         this.player1Score++;
                         this.broadcast('jugador 1 anotó un punto');
@@ -196,5 +197,6 @@ class ServerGameManager{
     }
 }
 
-const server = new ServerGameManager();
-server.start();
+//Ejemplo de uso:
+//const server = new ServerGameManager();
+//server.start();
